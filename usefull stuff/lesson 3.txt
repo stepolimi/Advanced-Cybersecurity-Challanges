@@ -1,0 +1,8 @@
+---------------------------Binary mitigation------------------------
+checksec program     -> checks mitigations active on the program
+
+---------------------------Randomizzation defence -------------------
+pages are randomized, a page is usually 0x1000, so in an address
+0xaa bb cc dd ee ff 00 11
+
+the last 3 half bytes(nimbles) are left unchaged (they are indexing inside the page), so we can attack those.

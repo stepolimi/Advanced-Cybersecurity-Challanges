@@ -1,0 +1,2 @@
+find all the gadgets in a binary:
+ROPgadget --binary ropasaurusrex

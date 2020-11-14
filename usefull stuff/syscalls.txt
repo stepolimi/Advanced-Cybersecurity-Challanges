@@ -1,0 +1,2 @@
+Syscalls of x86 64
+	https://syscalls.w3challs.com/?arch=x86_64
