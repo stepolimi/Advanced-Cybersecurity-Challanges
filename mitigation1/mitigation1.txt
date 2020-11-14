@@ -1,0 +1,10 @@
+---------------------mitigation challange1------------------------------
+canary: Attention! all the canaries has a 0 at the beginning so we cannot make it print totally to leak it
+but we need to leak it from the second number and then add a 0 (there could be other zeros in the canary, just skip them and watch the next byte).
+
+canary ALWAYS have a leading 0.
+
+x /38gx  0x7fffffffde50   --> what is in the memory
+
+
+for the other challanges with a canary wxcept the first one we need to leak more than only the canary
