@@ -1,0 +1,29 @@
+-----------------------Heap exploitation------------------------------
+Problem with allocating memory with syscalls: those are slow and allocate one page at a time(wich is usually too much or too few), for this reason it is usually asked a library like libc to allocate memory for you.
+
+Malloc is very fun: it gives you the memory required letting what is inside untouched!
+
+Free doesn't gives the memory back to the OS but it freesand keeps it for managing it again.
+
+how2heap: github repo to use mallocs and stuff from libc directly from terminal to see how them works. Execute malloc_playground (then command help) and eve attach gdb to it with "sudo gdb attach pid" with the pid given by the execution of malloc_playground.
+	refer to lesson 09/10/2020 around 55 min.
+
+overflow on chunks: overflow a chunk to overwrite the metadata of the next chunk to make it point to somewhere the next time you will allocate a chunck of that size.
+
+NOTE: the size of the chunks is the number untill the last byte: it is only flags because each chunk is a multiple of 16 bytes, so each chuk size must end with 0.
+NOTE: the header of the chunk is 0x10 before it's address.
+NOTE: the size of the header of a chunk is 0x10.
+NOTE: the first or the last free chunck in a list as the before or after pointer pointing to libc, so it could be a leak.
+
+There are tools from gdb to look at the heap:
+	heap: gives an overview of the chunks
+	bins: prints the lists that conteins the various chunks.
+	top_chunk: return address and size of the top chunk
+
+
+tcache: the first 7 freed chunks of a specific size are gonna be in a cache list to fast reallocate them. Freed chunks after the cache is full are gonna be put in the unsorted bi list.
+
+usortedbin: the chunks inside here are gonna be sorted the first time you are gonna access it. (no chuncks of right size in cache or in the correct list)
+
+
+
