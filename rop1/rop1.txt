@@ -1,0 +1,13 @@
+------------rop---------------
+
+when we have libc on the main, probably we are gonne use it.
+
+-----------find the main when the compiler doesn't find it (with libc)-------
+
+libc start main: lib c function called by the main. One of the parameters of start main is actually the main, but sometimes ghidra does not autamatically shows those parameters.
+to make them show just change the signature of libc_start_main by adding (int* param1, int* param2, int* param3). If nothing shows up, check the usage of the function because it could be only a wrapper and follow the references to find the actual entry point.
+The actual main will be a light blue FUN as a parameter of the libc_start_main.
+
+------------------------------------------------------------------------------
+
+
