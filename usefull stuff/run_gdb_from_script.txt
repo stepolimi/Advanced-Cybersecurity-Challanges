@@ -1,8 +1,0 @@
-lunch scrpit with gdb attached: 
-	-cd folder
-	-tmux
-	-python3 script.py
-	-ctrl+c
-	-bt(?)
-	-ctrl+b o   to switch panes
-	-quit     per chiudere pannelli

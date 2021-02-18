@@ -1,7 +1,0 @@
-search for the address of lib c to do a ret2libc 
-	when ASLR is active
-		if "system" is already used by the program(to check that, search for "got" in ghidra and see if there is system loaded in the global offset table) we can see the address and jump to it.
-		if there is write in the got, we can use it to exploit the address of any function of libc
-	-vmmap from gdb
-
-	-print system from gdb to get address of system

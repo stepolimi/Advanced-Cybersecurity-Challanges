@@ -1,8 +1,0 @@
-to execute calculus in the terminal
-	-ipython3
-	-for hex calculus:
-		-hex(0x... - 0x....)
-	-hex to bynary:
-		-f'{0xfffffffc:0>32b}'
-	-hex to int:
-		-int("0xfff", 0)
