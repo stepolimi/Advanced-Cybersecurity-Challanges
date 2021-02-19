@@ -1,3 +1,7 @@
+# COOKBOOK
+
+```python
+
 #!/usr/bin/python
 from pwn import *
 import time
@@ -27,4 +31,4 @@ print(r.recvuntil(b"[q]uit"))
 r.send(b"n\n")
 
 r.interactive()
-
+```

@@ -1,3 +1,7 @@
+# PRNG
+
+```python
+
 import claripy
 
 mt = [0]*624
@@ -70,3 +74,4 @@ s.add(leek_sym == 0x380a23f7)
 
 print(s.eval(seed, 1))
 
+```

